@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WFDL &middot; a language for watch dials</title>
+<meta name="description" content="A small language for drawing watch dials. 58 original faces, rendered as real watches.">
+<meta property="og:title" content="WFDL — a language for watch dials">
+<meta property="og:description" content="58 original dial designs, drawn from a text language and rendered in 3D.">
+<meta property="og:image" content="heroes/eclipse.png">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0b0b0d; --panel: #121216; --line: #26262c;
+    --ink: #e8e6e0; --dim: #9a978e; --gold: #b8974a; --blood: #8a3320;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--gold); text-decoration: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, .name b, figcaption b { font-family: Georgia, "Times New Roman", serif; }
+
+  header.top { padding: 88px 0 40px; text-align: center; }
+  header.top .mark {
+    font-family: Georgia, serif; letter-spacing: .32em; font-size: 15px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 20px;
+  }
+  header.top h1 {
+    font-size: clamp(38px, 7vw, 76px); font-weight: 400; margin: 0 0 18px;
+    letter-spacing: -.01em; line-height: 1.05;
+  }
+  header.top p.lead {
+    max-width: 620px; margin: 0 auto; color: var(--dim); font-size: 18px;
+  }
+
+  .heroes {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    padding: 40px 0 20px;
+  }
+  .hero-tile { margin: 0; position: relative; border-radius: 14px; overflow: hidden;
+    background: #000; border: 1px solid var(--line); }
+  .hero-tile img { width: 100%; display: block; aspect-ratio: 1/1; object-fit: cover;
+    object-position: center 42%; }
+  .hero-tile figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 14px;
+    background: linear-gradient(transparent, rgba(0,0,0,.85));
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .hero-tile figcaption b { font-size: 18px; font-weight: 400; }
+  .hero-tile figcaption span { color: var(--dim); font-size: 13px; }
+
+  .about { padding: 46px 0 20px; max-width: 720px; }
+  .about p { color: var(--dim); font-size: 17px; }
+  .about b { color: var(--ink); font-weight: 400; }
+  .stats { display: flex; gap: 40px; padding: 30px 0 10px; flex-wrap: wrap; }
+  .stat .n { font-family: Georgia, serif; font-size: 34px; color: var(--gold); }
+  .stat .l { color: var(--dim); font-size: 13px; text-transform: uppercase; letter-spacing: .12em; }
+
+  section.cat { padding: 44px 0 8px; border-top: 1px solid var(--line); margin-top: 44px; }
+  .cat-head { position: relative; margin-bottom: 26px; }
+  .cat-head h2 { font-size: 30px; font-weight: 400; margin: 0; display: inline; }
+  .cat-head .count { color: var(--gold); font-family: Georgia, serif; font-size: 15px;
+    margin-left: 10px; vertical-align: super; }
+  .cat-head p { color: var(--dim); margin: 10px 0 0; max-width: 640px; }
+
+  .grid {
+    display: grid; gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  }
+  .tile { margin: 0; }
+  .frame {
+    background: radial-gradient(circle at 50% 38%, #1a1a1f, #000 78%);
+    border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    aspect-ratio: 820/1004; display: grid; place-items: center;
+    transition: border-color .25s, transform .25s;
+  }
+  .frame img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .tile:hover .frame { border-color: var(--gold); transform: translateY(-3px); }
+  figcaption { padding: 12px 4px 4px; }
+  .name { font-family: Georgia, serif; font-size: 18px; }
+  .note { color: var(--dim); font-size: 13px; margin: 3px 0 0; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 64px;
+    padding: 40px 0 80px; color: var(--dim); font-size: 14px; text-align: center; }
+
+  @media (max-width: 720px) {
+    .heroes { grid-template-columns: repeat(2, 1fr); }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="mark">WFDL</div>
+    <h1>A watch dial,<br>written as text.</h1>
+    <p class="lead">A small language describes the rings of a dial. A compiler
+      checks that nothing collides and draws it. Then it goes on a watch.</p>
+  </header>
+
+  <div class="heroes">
+    <figure class="hero-tile"><img loading="eager" src="heroes/eclipse.png" alt="Eclipse"><figcaption><b>Eclipse</b><span>A total solar eclipse, corona over a black disc.</span></figcaption></figure>
+<figure class="hero-tile"><img loading="eager" src="heroes/singularity.png" alt="Singularity"><figcaption><b>Singularity</b><span>A black hole, rings falling into the event horizon.</span></figcaption></figure>
+<figure class="hero-tile"><img loading="eager" src="heroes/antikythera.png" alt="Antikythera"><figcaption><b>Antikythera</b><span>The oldest known gearwork, read as a dial.</span></figcaption></figure>
+<figure class="hero-tile"><img loading="eager" src="heroes/guilloche.png" alt="Guilloche"><figcaption><b>Guilloche</b><span>Engine-turned basketweave off the old lathe.</span></figcaption></figure>
+<figure class="hero-tile"><img loading="eager" src="heroes/galaxy.png" alt="Galaxy"><figcaption><b>Galaxy</b><span>Three spiral arms of light.</span></figcaption></figure>
+<figure class="hero-tile"><img loading="eager" src="heroes/radar.png" alt="Radar"><figcaption><b>Radar</b><span>A sweep, three contacts, phosphor green.</span></figcaption></figure>
+  </div>
+
+  <div class="about">
+    <p>A dial is a stack of rings, each ring one shape repeated around the
+      circle. You write the rings; the compiler places them, warns when two
+      land on the same spot, and renders the face. What follows are
+      <b>58 faces</b> built this way, each shown on a rendered watch.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">58</div><div class="l">Faces</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">Families</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Errors</div></div>
+    </div>
+  </div>
+
+  <section class="cat"><header class="cat-head"><h2>Astronomy</h2><span class="count">10</span><p>Eclipses, orbits, a pulsar map, the geometry of a black hole. Each one reads the sky and keeps the time.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_asterism.png" alt="Asterism dial"></div><figcaption><span class="name">Asterism</span><p class="note">The stars of the Plough, where they sit in the sky.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_comet.png" alt="Comet dial"></div><figcaption><span class="name">Comet</span><p class="note">A head and a graduated tail across a field of stars.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_eclipse.png" alt="Eclipse dial"></div><figcaption><span class="name">Eclipse</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_galaxy.png" alt="Galaxy dial"></div><figcaption><span class="name">Galaxy</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_meridian.png" alt="Meridian dial"></div><figcaption><span class="name">Meridian</span><p class="note">A twenty-four hour dial in navy and gold.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_orrery.png" alt="Orrery dial"></div><figcaption><span class="name">Orrery</span><p class="note">Six planets on their orbits under the zodiac.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_pulsar.png" alt="Pulsar dial"></div><figcaption><span class="name">Pulsar</span><p class="note">The Voyager pulsar map, drawn in binary.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_quasar.png" alt="Quasar dial"></div><figcaption><span class="name">Quasar</span><p class="note">Relativistic jets above and below the core.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_saros.png" alt="Saros dial"></div><figcaption><span class="name">Saros</span><p class="note">Moonphase and date under a Roman ring.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_astro_singularity.png" alt="Singularity dial"></div><figcaption><span class="name">Singularity</span></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Instruments</h2><span class="count">13</span><p>Dials borrowed from cockpits, dive computers, radar scopes and slide rules.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_altimeter.png" alt="Altimeter dial"></div><figcaption><span class="name">Altimeter</span><p class="note">An aircraft altimeter with a hundreds sub-dial.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_compass.png" alt="Compass dial"></div><figcaption><span class="name">Compass</span><p class="note">A thirty-two point rose with a red north needle.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_fathom.png" alt="Fathom dial"></div><figcaption><span class="name">Fathom</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_horizon.png" alt="Horizon dial"></div><figcaption><span class="name">Horizon</span><p class="note">An attitude indicator split into sky and ground.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_junction.png" alt="Junction dial"></div><figcaption><span class="name">Junction</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_meridian.png" alt="Meridian dial"></div><figcaption><span class="name">Meridian</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_metronome.png" alt="Metronome dial"></div><figcaption><span class="name">Metronome</span><p class="note">Grave to Presto, with beats per minute.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_moire.png" alt="Moire dial"></div><figcaption><span class="name">Moire</span><p class="note">Fifty ticks over fifty-one, so the pattern beats.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_navigator.png" alt="Navigator dial"></div><figcaption><span class="name">Navigator</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_radar.png" alt="Radar dial"></div><figcaption><span class="name">Radar</span><p class="note">Bearing ring, range rings, and a sweep.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_sightline.png" alt="Sightline dial"></div><figcaption><span class="name">Sightline</span><p class="note">A slide-rule logarithmic scale around a crosshair.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_stopwatch.png" alt="Stopwatch dial"></div><figcaption><span class="name">Stopwatch</span><p class="note">A decimal timer reading hundredths of a minute.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_inst_waveform.png" alt="Waveform dial"></div><figcaption><span class="name">Waveform</span><p class="note">A seismograph trace, ninety amplitude lines.</p></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Complications</h2><span class="count">2</span><p>More than one hand wants more than one dial. Regulators and world time.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_cplx_observatory.png" alt="Observatory dial"></div><figcaption><span class="name">Observatory</span><p class="note">A regulator with three separate sub-dials.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_cplx_worldtime.png" alt="Worldtime dial"></div><figcaption><span class="name">Worldtime</span><p class="note">Twenty-four cities against a day-night ring.</p></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Mathematics</h2><span class="count">4</span><p>Prime numbers, the golden angle, the digits of pi, laid out around the hour.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_math_fibonacci.png" alt="Fibonacci dial"></div><figcaption><span class="name">Fibonacci</span><p class="note">Markers at the Fibonacci minutes, growing in turn.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_math_pi.png" alt="Pi dial"></div><figcaption><span class="name">Pi</span><p class="note">Sixty digits of pi around the rim.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_math_prime.png" alt="Prime dial"></div><figcaption><span class="name">Prime</span><p class="note">The prime minutes stand tall; the rest are dots.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_math_sunflower.png" alt="Sunflower dial"></div><figcaption><span class="name">Sunflower</span><p class="note">Thirty-four seeds placed by the golden angle.</p></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Other bases</h2><span class="count">10</span><p>Counting systems that never reached base ten. Base seven, base five, cuneiform, rune and glyph bands.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_antikythera.png" alt="Antikythera dial"></div><figcaption><span class="name">Antikythera</span><p class="note">The Antikythera mechanism in bronze.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_bohr.png" alt="Bohr dial"></div><figcaption><span class="name">Bohr</span><p class="note">An atom, electron shells of 2, 8, 18, 32.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_heptad.png" alt="Heptad dial"></div><figcaption><span class="name">Heptad</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_iching.png" alt="Iching dial"></div><figcaption><span class="name">Iching</span><p class="note">A hexagram in solid and broken rings.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_kin.png" alt="Kin dial"></div><figcaption><span class="name">Kin</span><p class="note">A Maya count in base five and thirteen.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_lagash.png" alt="Lagash dial"></div><figcaption><span class="name">Lagash</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_morse.png" alt="Morse dial"></div><figcaption><span class="name">Morse</span><p class="note">The hours spelled in dots and dashes.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_septenary.png" alt="Septenary dial"></div><figcaption><span class="name">Septenary</span><p class="note">Base seven, counted in tally glyphs.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_tredecim.png" alt="Tredecim dial"></div><figcaption><span class="name">Tredecim</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_exo_wane.png" alt="Wane dial"></div><figcaption><span class="name">Wane</span></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Ornament</h2><span class="count">11</span><p>Woven bands, carved rings, dot work and thorns. The pattern comes first and the time sits inside it.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_dreamtime.png" alt="Dreamtime dial"></div><figcaption><span class="name">Dreamtime</span><p class="note">Concentric dot rings that line up into rays.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_eye.png" alt="Eye dial"></div><figcaption><span class="name">Eye</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_kilim.png" alt="Kilim dial"></div><figcaption><span class="name">Kilim</span><p class="note">Interlocking triangles, a woven textile.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_labyrinth.png" alt="Labyrinth dial"></div><figcaption><span class="name">Labyrinth</span><p class="note">Eight rings of broken arcs, a walkable maze.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_ossuary.png" alt="Ossuary dial"></div><figcaption><span class="name">Ossuary</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_runeband.png" alt="Runeband dial"></div><figcaption><span class="name">Runeband</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_scarwork.png" alt="Scarwork dial"></div><figcaption><span class="name">Scarwork</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_sleeve.png" alt="Sleeve dial"></div><figcaption><span class="name">Sleeve</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_solstice.png" alt="Solstice dial"></div><figcaption><span class="name">Solstice</span><p class="note">A sun cross under eight wide rays.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_sunburst.png" alt="Sunburst dial"></div><figcaption><span class="name">Sunburst</span><p class="note">Radiating wedges in three inks.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_trib_thornfield.png" alt="Thornfield dial"></div><figcaption><span class="name">Thornfield</span></figcaption></figure></div></section><section class="cat"><header class="cat-head"><h2>Dress</h2><span class="count">8</span><p>Quiet faces. Roman and Arabic numerals, a name in serif, room to breathe.</p></header><div class="grid"><figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_ancienne.png" alt="Ancienne dial"></div><figcaption><span class="name">Ancienne</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_filigree.png" alt="Filigree dial"></div><figcaption><span class="name">Filigree</span><p class="note">Lace work in fine paired lines.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_guilloche.png" alt="Guilloche dial"></div><figcaption><span class="name">Guilloche</span><p class="note">Engine-turned basketweave.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_heliotrope.png" alt="Heliotrope dial"></div><figcaption><span class="name">Heliotrope</span><p class="note">Didot numerals, small seconds at six.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_meridien.png" alt="Meridien dial"></div><figcaption><span class="name">Meridien</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_perle.png" alt="Perle dial"></div><figcaption><span class="name">Perle</span><p class="note">A pearled minute track in gold.</p></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_solene.png" alt="Solene dial"></div><figcaption><span class="name">Solene</span></figcaption></figure>
+<figure class="tile"><div class="frame"><img loading="lazy" src="faces/cat_dress_vesper.png" alt="Vesper dial"></div><figcaption><span class="name">Vesper</span></figcaption></figure></div></section>
+
+  <footer>
+    Drawn with WFDL and rendered in Blender. Every face is an original design.
+  </footer>
+</div>
+</body>
+</html>

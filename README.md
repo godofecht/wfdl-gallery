@@ -3,6 +3,8 @@
 A watch dial written as text. A small language describes the rings of a dial,
 a compiler checks that nothing collides, and the face is rendered onto a watch.
 
+![Fourteen of the fifty-eight faces, two from each family](docs/gallery-contact-sheet.jpg)
+
 This repository holds the public gallery: one landing page and the rendered
 images. It shows 58 original faces across seven families, from a total solar
 eclipse to a Maya count in base five.
